@@ -68,12 +68,12 @@
             background-color: #e68a00;
         }
 
-        .btn-register {
-            background-color: #009933;
+        .btn-danger { /* Red color for logout button */
+            background-color: #ff0000;
         }
 
-        .btn-register:hover {
-            background-color: #007a29;
+        .btn-danger:hover {
+            background-color: #cc0000;
         }
     </style>
 </head>
@@ -88,18 +88,17 @@
         if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true){
             // Check if user is admin
             if(isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == true) {
-                echo '<a href="/restraunt/logout/index.php" class="btn btn-primary">Logout</a>';
-                echo '<a href="/restraunt/reserve/index.php" class="btn btn-primary">Reserve a Table</a>';
+                echo '<a href="/restraunt/logout/index.php" class="btn btn-danger">Logout</a>';
                 echo '<a href="/restraunt/reserve/show_reservations.php" class="btn btn-primary">Display all the reserved tables</a>';
                 echo '<a href="/restraunt/menu/index.php" class="btn btn-primary">View Menu</a>';
                 echo '<a href="/restraunt/menu/add.php" class="btn btn-primary">Add into Menu</a>';
-                echo '<a href="/restraunt/order/index.php" class="btn btn-primary">Place an Order</a>';
                 echo '<a href="/restraunt/order/getall.php" class="btn btn-primary">Show all Orders</a>';
             } else {
-                echo '<a href="/restraunt/logout/index.php" class="btn btn-success">Logout</a>';
+                echo '<a href="/restraunt/logout/index.php" class="btn btn-danger">Logout</a>';
                 echo '<a href="/restraunt/reserve/index.php" class="btn btn-success">Reserve a Table</a>';
                 echo '<a href="/restraunt/menu/index.php" class="btn btn-success">View Menu</a>';
                 echo '<a href="/restraunt/order/index.php" class="btn btn-success">Place an Order</a>';
+                echo '<a href="/restraunt/order/getbyuser.php" class="btn btn-success">Show your Orders</a>';
             }
         }
         else {
