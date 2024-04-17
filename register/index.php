@@ -70,6 +70,7 @@
             <input type="submit" value="Register">
         </form>
         <?php
+        session_start();
         // Database connection
         require '../db.php';
 
@@ -83,7 +84,11 @@
 
             if ($conn->query($sql) === TRUE) {
                 // Redirect to login page
-                header("Location: /restraunt/login/index.php");
+                $_SESSION['loggedin'] = true;
+                $_SESSION['username'] = $username;
+                $_SESSION['is_admin'] = $is_admin;
+
+                header("Location: /restraunt/index.php");
                 exit;
             } else {
                 echo '<div class="error">Error: ' . $sql . '<br>' . $conn->error . '</div>';

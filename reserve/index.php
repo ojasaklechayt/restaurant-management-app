@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Reserve a Table</title>
     <style>
@@ -77,12 +78,64 @@
         .link:hover {
             color: #004d99;
         }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0px;
+            overflow: hidden;
+            background-color: lightgray;
+        }
+
+        li {
+            float: left;
+        }
+
+        li a {
+            display: block;
+            color: blue;
+            font-size: 20px;
+            text-align: center;
+            padding: 10px 20px;
+            text-decoration: none;
+        }
+
+        .active {
+            background-color: gray;
+            color: white;
+        }
+
+        li a:hover {
+            background-color: orange;
+            color: white;
+        }
     </style>
 </head>
+
 <body>
+    <nav>
+        <ul>
+            <?php
+            // Start the session
+            session_start();
+
+            // Check if user is logged in
+            if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
+                // If logged in, show logout link
+                echo '<li><a href="/restraunt/index.php">Main Menu</a></li>';
+                echo '<li><a href=""> Logged in as ' . $_SESSION['username'] . '</a></li>';
+                echo '<li><a href="/restraunt/logout/index.php">Logout</a></li>';
+            } else {
+                // If not logged in, show login link
+                echo '<li><a href="/restraunt/register/index.php">Register</a></li>';
+                echo '<li><a href="/restraunt/login/index.php">Login</a></li>';
+            }
+            ?>
+        </ul>
+    </nav>
     <div class="container">
         <h1>Reserve a Table</h1>
-        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             Username: <input type="text" name="username"><br>
             Table Number: <input type="text" name="table_number"><br>
             Reservation Time: <input type="datetime-local" name="reservation_time"><br>
@@ -104,7 +157,7 @@
 
             if ($result->num_rows > 0) {
                 // output data of each row
-                while($row = $result->fetch_assoc()) {
+                while ($row = $result->fetch_assoc()) {
                     $user_id = $row["id"];
                 }
 
@@ -132,4 +185,5 @@
         ?>
     </div>
 </body>
+
 </html>

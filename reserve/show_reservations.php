@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>All Reservations</title>
     <style>
@@ -31,7 +32,8 @@
             margin-top: 20px;
         }
 
-        th, td {
+        th,
+        td {
             padding: 15px;
             text-align: left;
             border-bottom: 1px solid #ddd;
@@ -49,9 +51,61 @@
         tr:hover {
             background-color: #ddd;
         }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0px;
+            overflow: hidden;
+            background-color: lightgray;
+        }
+
+        li {
+            float: left;
+        }
+
+        li a {
+            display: block;
+            color: blue;
+            font-size: 20px;
+            text-align: center;
+            padding: 10px 20px;
+            text-decoration: none;
+        }
+
+        .active {
+            background-color: gray;
+            color: white;
+        }
+
+        li a:hover {
+            background-color: orange;
+            color: white;
+        }
     </style>
 </head>
+
 <body>
+    <nav>
+        <ul>
+            <?php
+            // Start the session
+            session_start();
+
+            // Check if user is logged in
+            if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
+                // If logged in, show logout link
+                echo '<li><a href="/restraunt/index.php">Main Menu</a></li>';
+                echo '<li><a href=""> Logged in as ' . $_SESSION['username'] . '</a></li>';
+                echo '<li><a href="/restraunt/logout/index.php">Logout</a></li>';
+            } else {
+                // If not logged in, show login link
+                echo '<li><a href="/restraunt/register/index.php">Register</a></li>';
+                echo '<li><a href="/restraunt/login/index.php">Login</a></li>';
+            }
+            ?>
+        </ul>
+    </nav>
     <div class="container">
         <h1>All Reservations</h1>
         <table>
@@ -61,33 +115,32 @@
                 <th>Reservation Time</th>
             </tr>
             <?php
-                // Start the session
-                session_start();
 
-                // Database connection
-                require '../db.php';
+            // Database connection
+            require '../db.php';
 
-                // Query to get all reservations
-                $sql = "SELECT users.username, reservations.table_number, reservations.reservation_time FROM reservations INNER JOIN users ON reservations.user_id=users.id";
-                $result = $conn->query($sql);
+            // Query to get all reservations
+            $sql = "SELECT users.username, reservations.table_number, reservations.reservation_time FROM reservations INNER JOIN users ON reservations.user_id=users.id";
+            $result = $conn->query($sql);
 
-                if ($result->num_rows > 0) {
-                    // output data of each row
-                    while($row = $result->fetch_assoc()) {
-                        echo "<tr>";
-                        echo "<td>" . $row["username"] . "</td>";
-                        echo "<td>" . $row["table_number"] . "</td>";
-                        echo "<td>" . $row["reservation_time"] . "</td>";
-                        echo "</tr>";
-                    }
-                } else {
-                    echo "<tr><td colspan='3'>No reservations found</td></tr>";
+            if ($result->num_rows > 0) {
+                // output data of each row
+                while ($row = $result->fetch_assoc()) {
+                    echo "<tr>";
+                    echo "<td>" . $row["username"] . "</td>";
+                    echo "<td>" . $row["table_number"] . "</td>";
+                    echo "<td>" . $row["reservation_time"] . "</td>";
+                    echo "</tr>";
                 }
+            } else {
+                echo "<tr><td colspan='3'>No reservations found</td></tr>";
+            }
 
-                // Close database connection
-                $conn->close();
+            // Close database connection
+            $conn->close();
             ?>
         </table>
     </div>
 </body>
+
 </html>
