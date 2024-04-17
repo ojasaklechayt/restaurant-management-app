@@ -96,6 +96,7 @@
             } else {
                 echo '<a href="/restraunt/logout/index.php" class="btn btn-danger">Logout</a>';
                 echo '<a href="/restraunt/reserve/index.php" class="btn btn-success">Reserve a Table</a>';
+                echo '<a href="/restraunt/reserve/show_user_reservations.php" class="btn btn-success">Show my reserved tables</a>';
                 echo '<a href="/restraunt/menu/index.php" class="btn btn-success">View Menu</a>';
                 echo '<a href="/restraunt/order/index.php" class="btn btn-success">Place an Order</a>';
                 echo '<a href="/restraunt/order/getbyuser.php" class="btn btn-success">Show your Orders</a>';
