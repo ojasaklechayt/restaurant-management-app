@@ -154,7 +154,7 @@
                 }
 
                 // Find the most ordered item directly from SQL
-                $sql_most_ordered_item = "SELECT item FROM menu WHERE id = (SELECT item_id FROM orders GROUP BY item_id ORDER BY SUM(quantity) DESC LIMIT 1)";
+                $sql_most_ordered_item = "SELECT item FROM menu WHERE id = (SELECT item_id FROM orders GROUP BY item_id ORDER BY count(item_id) DESC LIMIT 1)";
                 $result_most_ordered_item = $conn->query($sql_most_ordered_item);
                 $row_most_ordered_item = $result_most_ordered_item->fetch_assoc();
                 $mostOrderedItem = $row_most_ordered_item['item'];

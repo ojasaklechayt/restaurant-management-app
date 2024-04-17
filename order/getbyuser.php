@@ -46,30 +46,36 @@
         <h1>My Orders</h1>
         <table>
             <tr>
-                <th>ID</th>
                 <th>Item</th>
                 <th>Quantity</th>
                 <th>Price</th>
             </tr>
             <?php
+            session_start();
             // Database connection
             require '../db.php';
 
             // Get user ID based on session or user input
-            $userId = 1; // Example user ID, replace with actual user ID retrieval method
-
+            $userName = $_SESSION['username'];
+            $userIdQuery = $conn->prepare("SELECT id FROM users WHERE username = ?");
+            $userIdQuery->bind_param("s", $userName);
+            $userIdQuery->execute();
+            $userResult = $userIdQuery->get_result();
+            $userID = $userResult->fetch_assoc()['id'];
             // SQL query to fetch user's orders
             $sql = "SELECT orders.*, menu.item, menu.price
                     FROM orders
                     INNER JOIN menu ON orders.item_id = menu.id
-                    WHERE orders.user_id = $userId";
+                    WHERE orders.user_id = ?";
 
-            $result = $conn->query($sql);
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $userID);
+            $stmt->execute();
+            $result = $stmt->get_result();
 
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
                     echo "<tr>";
-                    echo "<td>" . $row["id"] . "</td>";
                     echo "<td>" . $row["item"] . "</td>";
                     echo "<td>" . $row["quantity"] . "</td>";
                     echo "<td>$" . $row["price"] . "</td>";
